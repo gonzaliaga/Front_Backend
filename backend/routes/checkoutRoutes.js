@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const paypal = require('@paypal/checkout-server-sdk');
-const client = require('../config/paypalClient'); // Asegúrate de tener configurado tu cliente de PayPal
+//const client = require('../config/paypal'); // Asegúrate de tener configurado tu cliente de PayPal
 
 // Función para calcular el total del carrito
 function calculateTotal(cart) {
@@ -32,26 +32,9 @@ router.post('/pay', async (req, res) => {
 
     try {
         const order = await client.execute(request);
-        res.json({ approvalUrl: order.result.links.find(link => link.rel === 'approve').href });
+        res.json({ id: order.result.id });
     } catch (error) {
-        console.error('Error creating PayPal order:', error);
-        res.status(500).send('Error initiating PayPal payment');
-    }
-});
-
-// Ruta para capturar el pago
-router.get('/capture', async (req, res) => {
-    const { token } = req.query;
-
-    const request = new paypal.orders.OrdersCaptureRequest(token);
-    request.requestBody({});
-
-    try {
-        const capture = await client.execute(request);
-        res.send("Payment completed successfully");
-    } catch (error) {
-        console.error('Error capturing PayPal payment:', error);
-        res.status(500).send("Error capturing payment");
+        res.status(500).json({ message: 'Error al crear la orden de PayPal' });
     }
 });
 

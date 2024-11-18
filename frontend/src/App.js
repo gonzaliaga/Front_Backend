@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AdminPage from './pages/AdminPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -16,6 +17,7 @@ const App = () => (
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/checkout/success" component={CheckoutSuccess} />
             <Route path="/checkout/cancel" component={CheckoutCancel} />
+            <Route path="/admin" element={<AdminPage />} />
         </Routes>
     </Router>
 );

@@ -5,7 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 
-dotenv.config();
+//dotenv.config();
 const app = express();
 connectDB();
 
