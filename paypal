@@ -1,0 +1,37 @@
+import React from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
+const App = () => {
+  return (
+    <PayPalScriptProvider options={{ "client-id": "TU_CLIENT_ID_DE_PAYPAL" }}>
+      <div className="App">
+        <h1>Pagar con PayPal</h1>
+        <PayPalButtons
+          style={{ layout: "vertical" }}
+          createOrder={(data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: "20.00", // Monto total a pagar
+                  },
+                },
+              ],
+            });
+          }}
+          onApprove={(data, actions) => {
+            return actions.order.capture().then((details) => {
+              alert(`Pago exitoso por ${details.payer.name.given_name}`);
+              console.log(details);
+            });
+          }}
+          onError={(err) => {
+            console.error("Error en la transacción", err);
+          }}
+        />
+      </div>
+    </PayPalScriptProvider>
+  );
+};
+
+export default App;
